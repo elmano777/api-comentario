@@ -47,21 +47,3 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.environment.BUCKET_NAME}
-        PublicAccessBlockConfiguration:
-          BlockPublicAcls: true
-          BlockPublicPolicy: true
-          IgnorePublicAcls: true
-          RestrictPublicBuckets: true
-        VersioningConfiguration:
-          Status: Enabled
-        # Configuración para ingesta automática
-        NotificationConfiguration:
-          LambdaConfigurations:
-            - Event: s3:ObjectCreated:*
-              Function: !GetAtt CrearLambdaFunction.Arn
-        # Opcional: Configurar lifecycle para limpiar versiones antiguas
-        LifecycleConfiguration:
-          Rules:
-            - Id: DeleteOldVersions
-              Status: Enabled
-              NoncurrentVersionExpirationInDays: 30
